@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddActivity">
+
+    <EditText
+        android:id="@+id/StateET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="34dp"
+        android:hint="@string/ed_name"
+        android:textStyle="italic|bold"/>
+
+    <EditText
+        android:id="@+id/CapitalET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="34dp"
+        android:hint="@string/capital"
+        android:textStyle="italic"/>
+    <Button
+        android:id="@+id/saveBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/SAVE"
+        android:layout_gravity="center"
+        android:background="#B22222"/>
+
+</LinearLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/stateTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ed_name"
+        android:textStyle="italic|bold"
+        android:textSize="32sp"
+        android:textColor="#800000"
+        android:background="#00FFFF"/>
+    <TextView
+        android:id="@+id/capitalTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/capital"
+        android:textSize="25sp"
+        android:background="#000000"
+        android:textColor="#C0C0C0"
+        android:textStyle="normal"/>
+
+</LinearLayout>
