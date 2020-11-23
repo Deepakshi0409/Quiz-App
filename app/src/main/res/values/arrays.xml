@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_method">
+        <item>state name</item>
+        <item>capital name</item>
+        <item>default</item>
+    </string-array>
+    <string-array name="sort_method_values">
+        <item>State</item>
+        <item>Capital</item>
+        <item>statesId</item>
+    </string-array>
+    <string-array name="options">
+        <item>Four</item>
+        <item>Three</item>
+        <item>default</item>
+    </string-array>
+    <string-array name="option_values">
+        <item>four</item>
+        <item>three</item>
+    </string-array>
+</resources>
