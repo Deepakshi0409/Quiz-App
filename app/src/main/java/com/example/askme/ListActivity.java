@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,9 +22,19 @@ public class ListActivity extends AppCompatActivity {
     public static final String EXTRA_DATA_ID = "extra_notes_id";
     public static final String EXTRA_DATA_STATE = "extra_notes_state";
     public static final String EXTRA_DATA_CAPITAL = "extra_notes_capital";
-
+    public SharedPreferences sharedPreferences;
     private StateViewModel viewModel;
-
+    private StatesPagingListAdapter statesPagingListAdapter;
+    private States states;
+    private SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (key.equals("sort_pref")) {
+                String s = sharedPreferences.getString(key, "statesId");
+                viewModel.changesortingOrder(s);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +45,14 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ListActivity.this, AddActivity.class);
-                startActivityForResult(i,NEW_DATA_REQUEST_CODE);
+                startActivityForResult(i, NEW_DATA_REQUEST_CODE);
             }
         });
 
         viewModel = new ViewModelProvider(this).get(StateViewModel.class);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String sort = sharedPreferences.getString("sort_pref", "statesId");
+        viewModel.changesortingOrder(sort);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         final StatesPagingListAdapter statesPagingListAdapter = new StatesPagingListAdapter();
@@ -59,11 +74,12 @@ public class ListActivity extends AppCompatActivity {
             }
         });
     }
-    private void LaunchUpdateActivity(States states){
-        Intent intent = new Intent(ListActivity.this,AddActivity.class);
-        intent.putExtra(EXTRA_DATA_ID,states.getStatesId());
-        intent.putExtra(EXTRA_DATA_STATE,states.getStateName());
-        intent.putExtra(EXTRA_DATA_CAPITAL,states.getCapitalName());
-        startActivityForResult(intent,UPDATE_DATA_REQUEST_CODE);
+
+    private void LaunchUpdateActivity(States states) {
+        Intent intent = new Intent(ListActivity.this, AddActivity.class);
+        intent.putExtra(EXTRA_DATA_ID, states.getStatesId());
+        intent.putExtra(EXTRA_DATA_STATE, states.getStateName());
+        intent.putExtra(EXTRA_DATA_CAPITAL, states.getCapitalName());
+        startActivityForResult(intent, UPDATE_DATA_REQUEST_CODE);
     }
 }
