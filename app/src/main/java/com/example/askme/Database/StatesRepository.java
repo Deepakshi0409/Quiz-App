@@ -6,11 +6,16 @@ import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
+import androidx.sqlite.db.SimpleSQLiteQuery;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import com.example.askme.Data.States;
 
+import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class StatesRepository {
     private StatesDao statesDao;
@@ -60,8 +65,33 @@ public class StatesRepository {
     public LiveData<PagedList<States>> getAllStates(){
         return new LivePagedListBuilder<>(statesDao.getAllStates(),PAGE_SIZE).build();
     }
+
+    public LiveData<PagedList<States>> getallstates(String sortBy){
+        LiveData data = new LivePagedListBuilder<>(
+                statesDao.getAllSortedStates(constructQuery(sortBy)),PAGE_SIZE
+
+        ).build();
+        return data;
+    }
+
+    public SupportSQLiteQuery constructQuery(String sortBy){
+        String query = "SELECT * FROM State ORDER BY" + sortBy + "ASC";
+        return new SimpleSQLiteQuery(query);
+    }
     @WorkerThread
     public States getStatesForNotification(){
         return statesDao.getStateForNotification();
     }
+
+    public Future<List<States>> getQuizStates(){
+        Callable<List<States>> callable = new Callable<List<States>>() {
+            @Override
+            public List<States> call() throws Exception {
+                return statesDao.getQuizStates();
+            }
+        };
+        return executorService.submit(callable);
+    }
+
 }
+
